@@ -1,0 +1,16 @@
+{
+  "name": "Кин дня — Цолькин",
+  "short_name": "Цолькин",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a1a2e",
+  "description": "Кин дня по Dreamspell: печать, тон, оракул, волна, замок",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

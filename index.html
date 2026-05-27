@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#050010">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="Permissions-Policy" content="vibrate=*">
+<title>Кин дня — Цолькин</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>window._vibrate = navigator.vibrate ? navigator.vibrate.bind(navigator) : null;</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css?v=44">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<div id="app">
+  <header id="nav">
+    <button id="prev" class="nav-btn" aria-label="Previous day">&larr;</button>
+    <button id="today-btn" class="nav-btn today-btn" aria-label="Сегодня" title="Сегодня">СЕГ</button>
+    <div id="date-display" class="date-tap"></div>
+    <button id="my-kin-btn" class="nav-btn" aria-label="Мой кин" title="Мой кин">☉</button>
+    <button id="next" class="nav-btn" aria-label="Next day">&rarr;</button>
+  </header>
+  <input type="date" id="date-picker" style="display:none">
+
+  <main id="card"></main>
+
+  <nav id="tabs">
+    <button class="tab active" data-tab="main"><span class="tab-icon">◉</span>КИН</button>
+    <button class="tab" data-tab="cycles"><span class="tab-icon">◌</span>ЦИКЛЫ</button>
+    <button class="tab" data-tab="tzolkin"><span class="tab-icon">▦</span>ЦОЛЬКИН</button>
+    <button class="tab" data-tab="personal"><span class="tab-icon">☉</span>МОЙ</button>
+    <button class="tab" data-tab="maya"><span class="tab-icon">𓅓</span>МАЙЯ</button>
+  </nav>
+</div>
+
+<button id="music-btn" class="music-btn" title="Фоновая музыка">♫</button>
+<button id="settings-btn" class="settings-btn" title="Настройки">⚙</button>
+
+<!-- Settings modal -->
+<div id="settings-modal" class="modal-overlay" style="display:none">
+  <div class="modal-content" id="settings-content"></div>
+</div>
+
+<!-- Kin popup (outside #app to avoid stacking context issues) -->
+<div id="kin-popup" class="popup-overlay" style="display:none">
+  <div class="popup-card" id="kin-popup-content"></div>
+</div>
+
+<script>
+const APP_VER = '44';
+if (localStorage.getItem('appVer') !== APP_VER) {
+  localStorage.setItem('appVer', APP_VER);
+  localStorage.removeItem('vibTested'); // re-run vib test on update
+}
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      const nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener('statechange', () => {
+        if (nw.state === 'activated' && navigator.serviceWorker.controller) {
+          location.reload();
+        }
+      });
+    });
+  });
+}
+</script>
+<script type="module" src="app.js?v=44"></script>
+</body>
+</html>
